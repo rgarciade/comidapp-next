@@ -1,20 +1,40 @@
 import type { Config } from "tailwindcss";
 
-const config: Config = {
-  content: [
-    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
+module.exports = {
+  content: [ "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      fontSize: {
+        "4xl": "2.8rem",
+        "3xl": "1.8rem",
+        "2xl": "1.5rem"
       },
-    },
+      textShadow: {
+        "2xl": "5px 10px;"
+      },
+      textColor: {
+        "primary": "#E49756",
+        "secondary": "#bb7e4b"
+      },
+      colors: {
+        "primary": "#E49756",
+        "secondary": "#bb7e4b",
+      },
+      backgroundColor: {
+        "primary": "#f7f7f7",
+      },
+      themeColor: {
+        "primary": "#f7f7f7"
+      },
+    }
   },
-  plugins: [],
-};
-export default config;
+  plugins: [
+    plugin(function ({addBase, theme}) {
+      addBase({
+        "h1": {fontSize: theme("fontSize.4xl")},
+        "h2": {fontSize: theme("fontSize.3xl")},
+        "h3": {fontSize: theme("fontSize.2xl")}
+      });
+    })
+  ]
+}
