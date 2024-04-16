@@ -14,34 +14,37 @@ datasource db {
 }
 
 model IngredientType {
-  id          String   @id @default(cuid())
-  name        String
+  id                String             @id @default(cuid())
+  name              String
   recipeIngredients RecipeIngredient[]
 }
 
 model Recipe {
-  id          String     @id @default(cuid())
-  title       String
-  description String
-  directions  String
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  id                String             @id @default(cuid())
+  title             String
+  description       String
+  preparationTime   Int                @default(0)
+  rating            Float              @default(0)
+  rations           Int                @default(1)
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
   recipeIngredients RecipeIngredient[]
-  preparationSteps PreparationStep[]
+  preparationSteps  PreparationStep[]
 }
 
 model RecipeIngredient {
-  recipeId       String
+  recipeId         String
   ingredientTypeId String
-  units          String
-  Recipe         Recipe   @relation(fields: [recipeId], references: [id])
-  IngredientType IngredientType @relation(fields: [ingredientTypeId], references: [id])
+  units            String
+  Recipe           Recipe         @relation(fields: [recipeId], references: [id])
+  IngredientType   IngredientType @relation(fields: [ingredientTypeId], references: [id])
+
   @@id([recipeId, ingredientTypeId])
 }
 
 model PreparationStep {
-  id      String @id @default(cuid())
-  step    String
+  id       String @id @default(cuid())
+  step     String
   recipeId String
-  Recipe  Recipe @relation(fields: [recipeId], references: [id])
+  Recipe   Recipe @relation(fields: [recipeId], references: [id])
 }

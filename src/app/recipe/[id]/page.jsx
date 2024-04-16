@@ -1,18 +1,24 @@
-import IconComp from "../components/iconComp";
-import InfoComp from "../components/infoComp";
-import StartCooking from "../components/startCooking";
+
+import IconComp from "../../components/iconComp";
+import StartCooking from "../../components/startCooking";
+// import { usePathname } from "next/navigation";
+import {getRecipe} from "../../backend/recipe/controllers/getRecipe.controller";
+import Labels from "../components/labels";
+//import {labels} from "../components/labels";
 
 
-function Recipe() {
+export default async function Recipe() {
     const ingredients = []
     const steps = []
     const name = "Ensalada de lechuga"
-    const cookingTime = "10 minutos"
-    const servings = 4
+    // const cookingTime = "10 minutos"
+    // const servings = 4
+    const recipe = await getRecipe('clv2h6s8e0005dejsdcc1s0z2')
 
     return (
         <>
             <div className="flex-col h-screen ">
+                {JSON.stringify(recipe)}
                 <div className="flex-none h-3/6">
                     <IconComp
                         icon="bookmark"
@@ -30,16 +36,9 @@ function Recipe() {
                 >
                     <h3 className="font-bold">{name}</h3>
                     <div id="info" className="flex pt-10 border-b-2 pb-8">
-                        <div className="flex w-11/12 gap-4 pr-44">
-                            <div id="cooking-time" className="flex-none">
-                                <InfoComp
-                                    text={cookingTime}/>
-                            </div>
-                            <div id="servings" className="flex-none">
-                                <InfoComp
-                                    text={servings + " raciones"}/>
-                            </div>
-                        </div>
+
+                        <Labels cookingTime={recipe?.preparationTime} rations={recipe?.rations}/>
+
                         <IconComp icon="add" class="w-10"/>
                     </div>
                     <div id="ingredients" className="pt-5 pb-12">
@@ -79,5 +78,3 @@ function Recipe() {
         </>
     );
 }
-
-export default Recipe;

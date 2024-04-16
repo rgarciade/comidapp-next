@@ -15,8 +15,10 @@ async function main() {
     const ensaladaDeTomate = await prisma.recipe.create({
         data: {
             title: 'Ensalada de Tomate',
+            preparationTime: 10,
+            rating: 5,
+            rations: 2,
             description: 'Una ensalada fresca y deliciosa.',
-            directions: 'Corta los tomates en rodajas y sírvelos en un plato.',
             preparationSteps: {
                 create: [
                     { step: 'Corta los tomates.' },
@@ -30,7 +32,9 @@ async function main() {
         data: {
             title: 'Espaguetis a la Carbonara',
             description: 'Un plato italiano clásico y sabroso.',
-            directions: 'Cocina los espaguetis y mézclalos con el queso.',
+            preparationTime: 11,
+            rating: 3,
+            rations: 1,
             preparationSteps: {
                 create: [
                     { step: 'Cocina los espaguetis.' },
