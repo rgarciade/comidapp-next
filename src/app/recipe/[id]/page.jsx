@@ -1,24 +1,28 @@
-
 import IconComp from "../../components/iconComp";
 import StartCooking from "../../components/startCooking";
-// import { usePathname } from "next/navigation";
 import {getRecipe} from "../../backend/recipe/controllers/getRecipe.controller";
 import Labels from "../components/labels";
-//import {labels} from "../components/labels";
+import PropTypes from "prop-types";
 
+export const metadata= {
+    title: "Receta",
+    description: "Receta de ensalada de lechuga",
+}
 
-export default async function Recipe() {
-    const ingredients = []
-    const steps = []
-    const name = "Ensalada de lechuga"
-    // const cookingTime = "10 minutos"
-    // const servings = 4
-    const recipe = await getRecipe('clv2h6s8e0005dejsdcc1s0z2')
+export default async function Recipe({params}) {
+
+    const { id } = params;
+
+    const recipe = await getRecipe(id)
+    const ingredients = recipe.recipeIngredients
+    const steps = recipe.preparationSteps
+    const name = recipe.title
+    const preparationTime = recipe.preparationTime
+    const rations = recipe.rations
 
     return (
         <>
             <div className="flex-col h-screen ">
-                {JSON.stringify(recipe)}
                 <div className="flex-none h-3/6">
                     <IconComp
                         icon="bookmark"
@@ -37,20 +41,20 @@ export default async function Recipe() {
                     <h3 className="font-bold">{name}</h3>
                     <div id="info" className="flex pt-10 border-b-2 pb-8">
 
-                        <Labels cookingTime={recipe?.preparationTime} rations={recipe?.rations}/>
+                        <Labels cookingTime={preparationTime} rations={rations}/>
 
                         <IconComp icon="add" class="w-10"/>
                     </div>
                     <div id="ingredients" className="pt-5 pb-12">
                         <h3 className="font-bold pb-2 pt-2">Ingredientes</h3>
                         {ingredients.map((ingredient, index) => (
-                            <ul key={index} className="list-none text-2xl">
+                            <ul key={ingredient.id} className="list-none text-2xl">
                                 <li
                                     className="pt-3 flex gap-2"
                                 >
                                     <IconComp icon="check" class="w-8 h-8"/>
                                     <p>
-                                        {ingredient.quantity} {ingredient.unit} {ingredient.name}
+                                        {ingredient.units} {ingredient.IngredientType.name}
                                     </p>
                                 </li>
                             </ul>
@@ -60,12 +64,12 @@ export default async function Recipe() {
                     <div id="steps" className="pt-5 pb-28">
                         <h3 className="font-bold pb-2 pt-2">Pasos</h3>
                         <ul className="list-none text-2xl">
-                            {steps.map((step, index) => (
-                                <li key={index}
+                            {steps.map((step) => (
+                                <li key={step.id}
                                     className="pt-3 flex gap-2">
                                     <span className="w-4 mt-4 mb-4 h-1 bg-primary"></span>
                                     <p>
-                                        {step.name}
+                                        {step.step}
                                     </p>
                                 </li>
                             ))}
@@ -78,3 +82,7 @@ export default async function Recipe() {
         </>
     );
 }
+Recipe.propTypes = {
+    params: PropTypes.object.isRequired,
+}
+
