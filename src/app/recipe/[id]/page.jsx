@@ -48,7 +48,7 @@ export default async function Recipe({params}) {
                     <div id="ingredients" className="pt-5 pb-12">
                         <h3 className="font-bold pb-2 pt-2">Ingredientes</h3>
                         {ingredients.map((ingredient, index) => (
-                            <ul key={ingredient.id} className="list-none text-2xl">
+                            <ul key={index} className="list-none text-2xl">
                                 <li
                                     className="pt-3 flex gap-2"
                                 >
@@ -64,8 +64,8 @@ export default async function Recipe({params}) {
                     <div id="steps" className="pt-5 pb-28">
                         <h3 className="font-bold pb-2 pt-2">Pasos</h3>
                         <ul className="list-none text-2xl">
-                            {steps.map((step) => (
-                                <li key={step.id}
+                            {steps.map((step,index) => (
+                                <li key={index}
                                     className="pt-3 flex gap-2">
                                     <span className="w-4 mt-4 mb-4 h-1 bg-primary"></span>
                                     <p>

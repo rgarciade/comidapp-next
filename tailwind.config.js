@@ -3,13 +3,16 @@ const plugin = require("tailwindcss/plugin");
 
 module.exports = {
     content: [
-        './src/**/*.{js,ts,jsx,tsx,mdx}',
+        './src/app/recipe/**/*.{js,ts,jsx,tsx,mdx}',
+        './src/app/finder/**/*.{js,ts,jsx,tsx,mdx}',
+        './src/app/components/**/*.{js,ts,jsx,tsx,mdx}',
+
     ],
     theme: {
         extend: {
             fontSize: {
                 "4xl": "2.8rem",
-                "3xl": "1.8rem",
+                "3xl": "1.7rem",
                 "2xl": "1.5rem"
             },
             textShadow: {
@@ -24,6 +27,7 @@ module.exports = {
                 "secondary": "#bb7e4b",
             },
             backgroundColor: {
+                "primary-white": "#f7f7f7",
                 "primary": "#E49756",
                 "secondary": "#bb7e4b",
             },
