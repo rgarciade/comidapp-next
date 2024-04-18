@@ -6,5 +6,4 @@ export async function GET(res, req) {
 
     const recipe = await getRecipe(id);
     return NextResponse.json(recipe);
-
 }

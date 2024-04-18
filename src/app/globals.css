@@ -9,3 +9,142 @@
     text-wrap: balance;
   }
 }
+
+.elemento-padre {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.elemento-superior {
+  background-color: #fefefe00;
+}
+
+.lareral-izquierda{
+  min-width: 50px;
+  position: relative;
+  width: 100%;
+  height: 42px;
+  z-index: 0;
+  top: -40px;
+  background-color: white;
+  margin-bottom: -15px;
+  transform: skewX(44deg);
+  right: -6px;
+}
+.lareral-izquierda:before{
+  content: "";
+  width: 239px;
+  height: 84px;
+  background-color: white;
+  position: absolute;
+  transform: rotate(178deg);
+  left: -58px;
+}
+.lareral-right{
+  min-width: 50px;
+  position: relative;
+  width: 100%;
+  height: 41px;
+  z-index: 0;
+  top: -49px;
+  background-color: white;
+  margin-bottom: -15px;
+  transform: skewX(313deg);
+  left: 2px;
+}
+.lareral-right:before{
+  content: "";
+  width: 268px;
+  height: 83px;
+  background-color: white;
+  position: absolute;
+  transform: rotate(182deg);
+  top: 10px;
+}
+
+
+
+.inferior-central{
+  min-width: 50px;
+  position: relative;
+  width: 100%;
+  height: 35px;
+  z-index: 0;
+  top: -35px;
+  margin-bottom: -15px;
+}
+.index{
+  z-index: 3;
+  position: absolute;
+  height: 105px;
+  border-bottom-left-radius: 50% 20px;
+  border-bottom-right-radius: 50% 20px;
+}
+.index::before{
+  content: "";
+  bottom: 48px;
+  left: 0;
+  z-index: -1;
+  position: absolute;
+  background: inherit;
+  opacity: 1;
+  top: 0;
+  min-width: 51px;
+  margin-left: -2px;
+  border-bottom-left-radius: 50% 20px;
+  border-bottom-right-radius: 50% 20px;
+}
+
+.navigator-first-line-1{
+  position: relative;
+  right: -11px;
+  }
+.navigator-first-line-3{
+  position: relative;
+  left: -8px;
+}
+
+
+
+.wrap {
+  position:relative;
+  transform:rotate(-90deg);
+}
+
+.object {
+  position: relative;
+  overflow: hidden;
+  background: white;
+  width: 59px;
+  height: 52px;
+}
+
+
+.object:after {
+  content: "";
+  background: #cbea0fe6;
+  position: absolute;
+  top: -3px;
+  width: 55px;
+  height: 57px;
+  border-radius: 300px;
+  right: -43px;
+}
+
+.square {
+  width: 98px;
+  height: 38px;
+  background-color: #fff;
+  -webkit-mask-image: radial-gradient(circle 10px at 0 0, transparent 0, transparent 25px, black 26px);
+  mask-image: radial-gradient(circle 10px at 0 0, transparent 0, transparent 25px, black 26px);
+  transform: rotate(46deg);
+  position: relative;
+  top: -31px;
+  left: -2px;
+}
+
+.button-add{
+  transform: translateY(-26px) translateX(-2px);
+}
+
