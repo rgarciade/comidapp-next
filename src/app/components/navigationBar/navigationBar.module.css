@@ -1,0 +1,25 @@
+/* NavigationBar.module.css */
+
+.bottomNav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 4rem;
+    background-color: white;
+    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.bottomNav a {
+    color: #E49756;
+    text-decoration: none;
+    font-size: small;
+    text-align: center;
+    transition: color 0.2s ease-in-out;
+}
+
+.bottomNav a:hover {
+    color: #bb7e4b;
+}

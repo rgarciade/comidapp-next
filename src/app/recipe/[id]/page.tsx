@@ -1,8 +1,9 @@
 import IconComp from "../../components/iconComp";
-import StartCooking from "../../components/startCooking";
+import {StartCooking} from "../../components/startCooking";
 import {getRecipe} from "../../backend/recipe/controllers/getRecipe.controller";
 import Labels from "../components/labels";
 import PropTypes from "prop-types";
+import {Recipe} from "@prisma/client";
 
 export const metadata= {
     title: "Receta",
@@ -13,7 +14,7 @@ export default async function Recipe({params}) {
 
     const { id } = params;
 
-    const recipe = await getRecipe(id)
+    const recipe:Recipe = await getRecipe(id)
     const ingredients = recipe.recipeIngredients
     const steps = recipe.preparationSteps
     const name = recipe.title

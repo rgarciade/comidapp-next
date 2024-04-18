@@ -1,9 +1,13 @@
-import IconComp from "../components/IconComp";
+import IconComp from "@/app/components/iconComp";
+import {getTopRecipes} from "@/app/backend/recipe/controllers/getTopRecipes";
+import { RecipeCard } from "./components/recipeCard";
+import {Recipe} from "@prisma/client";
 
-export default function Finder() {
+export default async function Finder(): Promise<any> {
+    const topRecipes:Recipe[] = await getTopRecipes()
     return (
         <>
-            <div className="pl-6 pr-6 pt-10 bg-primary-white h-screen">
+            <div className="pl-6 pr-6 pt-10 bg-primary-white pb-44">
                 <p className="text-gray-400 text-1xl">Hola</p>
                 <h2 className="w-2/3 leading-8 font-semibold">¿Que te gustaría cocinar hoy?</h2>
                 <div className="relative pt-6">
@@ -16,16 +20,28 @@ export default function Finder() {
                 </div>
                 <h3 className="pt-6  font-semibold">Recomendaciones</h3>
                 <div className="flex  pt-6">
-                    <div className="font-semibold h-40 w-32 pr-4">
-                        <img className="h-40 object-cover rounded-xl"
-                             src="https://www.comedera.com/wp-content/uploads/2021/12/ensalada-de-lechuga1.jpg"/>
-                        <p className="pt-2">Desayuno</p>
-                    </div>
-                    <div className=" h-40 w-32 pr-4">
-                        <img className="h-40 object-cover rounded-xl"
-                             src="https://www.comedera.com/wp-content/uploads/2021/12/ensalada-de-lechuga1.jpg"/>
-                        <p className="text-center pt-4">Desayuno</p>
-                    </div>
+                    {topRecipes.map((recipe, index) => (
+                        <RecipeCard key={recipe.id} recipe={recipe}/>
+                    ))
+                    }
+                </div>
+                <div className="flex  pt-6">
+                    {topRecipes.map((recipe, index) => (
+                        <RecipeCard key={recipe.id} recipe={recipe}/>
+                    ))
+                    }
+                </div>
+                <div className="flex  pt-6">
+                    {topRecipes.map((recipe, index) => (
+                        <RecipeCard key={recipe.id} recipe={recipe}/>
+                    ))
+                    }
+                </div>
+                <div className="flex  pt-6">
+                    {topRecipes.map((recipe, index) => (
+                        <RecipeCard key={recipe.id} recipe={recipe}/>
+                    ))
+                    }
                 </div>
             </div>
 
