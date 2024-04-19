@@ -3,18 +3,21 @@ import {StartCooking} from "../../components/startCooking";
 import {getRecipe} from "../../backend/recipe/controllers/getRecipe.controller";
 import Labels from "../components/labels";
 import PropTypes from "prop-types";
-import {Recipe} from "@prisma/client";
+import {Recipe, RecipeIngredient, IngredientType, PreparationStep} from "@prisma/client";
 
 export const metadata= {
     title: "Receta",
     description: "Receta de ensalada de lechuga",
 }
+interface Params {
+    params: {id: string}
+}
 
-export default async function Recipe({params}) {
+export default async function Recipe({params} : Params) {
 
     const { id } = params;
 
-    const recipe:Recipe = await getRecipe(id)
+    const recipe:Recipe | any  = await getRecipe(id)
     const ingredients = recipe.recipeIngredients
     const steps = recipe.preparationSteps
     const name = recipe.title
@@ -48,7 +51,7 @@ export default async function Recipe({params}) {
                     </div>
                     <div id="ingredients" className="pt-5 pb-12">
                         <h3 className="font-bold pb-2 pt-2">Ingredientes</h3>
-                        {ingredients.map((ingredient, index) => (
+                        {ingredients.map((ingredient:Recipe | any , index:number) => (
                             <ul key={index} className="list-none text-2xl">
                                 <li
                                     className="pt-3 flex gap-2"
@@ -65,7 +68,7 @@ export default async function Recipe({params}) {
                     <div id="steps" className="pt-5 pb-28">
                         <h3 className="font-bold pb-2 pt-2">Pasos</h3>
                         <ul className="list-none text-2xl">
-                            {steps.map((step,index) => (
+                            {steps.map((step: PreparationStep, index: number) => (
                                 <li key={index}
                                     className="pt-3 flex gap-2">
                                     <span className="w-4 mt-4 mb-4 h-1 bg-primary"></span>

@@ -20,19 +20,19 @@ export default async function Finder(): Promise<any> {
                 </div>
                 <h3 className="pt-6  font-semibold">Recomendaciones</h3>
                 <div className="flex  pt-6">
-                    {topRecipes.map((recipe, index) => (
+                    {topRecipes.map((recipe) => (
                         <RecipeCard key={recipe.id} recipe={recipe}/>
                     ))
                     }
                 </div>
                 <div className="flex  pt-6">
-                    {topRecipes.map((recipe, index) => (
+                    {topRecipes.map((recipe) => (
                         <RecipeCard key={recipe.id} recipe={recipe}/>
                     ))
                     }
                 </div>
                 <div className="flex  pt-6">
-                    {topRecipes.map((recipe, index) => (
+                    {topRecipes.map((recipe) => (
                         <RecipeCard key={recipe.id} recipe={recipe}/>
                     ))
                     }
