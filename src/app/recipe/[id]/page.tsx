@@ -3,7 +3,7 @@ import {StartCooking} from "../../components/startCooking";
 import {getRecipe} from "../../backend/recipe/controllers/getRecipe.controller";
 import Labels from "../components/labels";
 import PropTypes from "prop-types";
-import {Recipe, RecipeIngredient, IngredientType, PreparationStep} from "@prisma/client";
+import {Recipe, PreparationStep} from "@prisma/client";
 
 export const metadata= {
     title: "Receta",
