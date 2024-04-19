@@ -26,7 +26,7 @@ export default async function Recipe({params} : Params) {
 
     return (
         <>
-            <div className="flex-col h-screen ">
+            <div className="flex-col h-screen pb-40 ">
                 <div className="flex-none h-3/6">
                     <IconComp
                         icon="bookmark"
@@ -79,10 +79,12 @@ export default async function Recipe({params} : Params) {
                             ))}
 
                         </ul>
+                        <StartCooking/>
                     </div>
+
                 </div>
+
             </div>
-            <StartCooking/>
         </>
     );
 }
