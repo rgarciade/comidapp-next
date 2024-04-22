@@ -1,5 +1,5 @@
 import IconComp from "../../components/iconComp";
-import {StartCooking} from "../../components/startCooking";
+import {StartCooking} from "./components/startCooking";
 import {getRecipe} from "../../backend/recipe/controllers/getRecipe.controller";
 import Labels from "../components/labels";
 import PropTypes from "prop-types";
