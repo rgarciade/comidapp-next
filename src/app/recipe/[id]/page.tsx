@@ -4,13 +4,27 @@ import {getRecipe} from "../../backend/recipe/controllers/getRecipe.controller";
 import Labels from "../components/labels";
 import PropTypes from "prop-types";
 import {Recipe, PreparationStep} from "@prisma/client";
+import {Metadata} from "next";
 
-export const metadata= {
-    title: "Receta",
-    description: "Receta de ensalada de lechuga",
-}
+export const dynamic = 'auto'
+
+
 interface Params {
     params: {id: string}
+}
+export async function generateMetadata({params}: Params): Promise<Metadata> {
+    const { id } = params;
+    const recipe:Recipe | any  = await getRecipe(id)
+    const name = recipe.title
+    const ingredients = recipe.recipeIngredients.map((ingredient:Recipe | any) => ingredient.IngredientType.name)
+    return {
+        title: `Receta ${name}`,
+        description: `Receta ${name}`,
+        keywords: [
+            name,
+                ...ingredients
+        ]
+    }
 }
 
 export default async function Recipe({params} : Params) {
@@ -30,7 +44,7 @@ export default async function Recipe({params} : Params) {
                 <div className="flex-none h-3/6">
                     <IconComp
                         icon="bookmark"
-                        class="w-14 absolute right-4 bg-white rounded-full p-2 top-3"
+                        classData="w-14 absolute right-4 bg-white rounded-full p-2 top-3"
                     />
 
                     <img
@@ -47,7 +61,7 @@ export default async function Recipe({params} : Params) {
 
                         <Labels cookingTime={preparationTime} rations={rations}/>
 
-                        <IconComp icon="add" class="w-10"/>
+                        <IconComp icon="add" classData="w-10"/>
                     </div>
                     <div id="ingredients" className="pt-5 pb-12">
                         <h3 className="font-bold pb-2 pt-2">Ingredientes</h3>
@@ -56,7 +70,7 @@ export default async function Recipe({params} : Params) {
                                 <li
                                     className="pt-3 flex gap-2"
                                 >
-                                    <IconComp icon="check" class="w-8 h-8"/>
+                                    <IconComp icon="check" classData="w-8 h-8"/>
                                     <p>
                                         {ingredient.units} {ingredient.IngredientType.name}
                                     </p>

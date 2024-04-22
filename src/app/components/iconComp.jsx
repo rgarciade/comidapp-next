@@ -6,13 +6,13 @@ function getIcon(icon) {
 
 function IconComp({...props}) {
     return (
-        <img className={props.class} src={getIcon(props.icon)} alt={props.icon}/>
+        <img className={props.classData} src={getIcon(props.icon)} alt={props.icon}/>
     );
 }
 
 IconComp.propTypes = {
     icon: PropTypes.string.isRequired,
-    class: PropTypes.string.isRequired,
+    classData: PropTypes.string.isRequired,
 };
 
 export default IconComp;

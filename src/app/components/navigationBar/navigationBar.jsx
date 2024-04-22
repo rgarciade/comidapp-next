@@ -10,20 +10,20 @@ export const NavigationBar = () => {
             <div className={styles.bottomNav}>
                 <Link href={`/`}>
                     <div className="flex flex-col items-center">
-                        <TiHome class="w-6 h-6"/>
+                        <TiHome className="w-6 h-6"/>
                     </div>
                 </Link>
                 <Link href={`/recipe/2`}>
                     <div className="flex flex-col items-center">
                         <IconComp
                             icon="bookmark"
-                            class="w-6 h-6"
+                            classData="w-6 h-6"
                         />
                     </div>
                 </Link>
                 <Link href={`/recipe/3`}>
                     <div className="flex flex-col items-center">
-                        <FaUser class="w-6 h-6"/>
+                        <FaUser className="w-6 h-6"/>
                     </div>
                 </Link>
             </div>
