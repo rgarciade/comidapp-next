@@ -30,6 +30,15 @@ model Recipe {
   updatedAt         DateTime           @updatedAt
   recipeIngredients RecipeIngredient[]
   preparationSteps  PreparationStep[]
+  categoryId        String
+  category          Category           @relation(fields: [categoryId], references: [id])
+  difficulty        String
+}
+
+model Category {
+  id      String   @id @default(cuid())
+  name    String
+  recipes Recipe[]
 }
 
 model RecipeIngredient {

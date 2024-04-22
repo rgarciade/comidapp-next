@@ -1,4 +1,4 @@
-import {prisma} from '/prisma/index.js'
+import prisma from '/prisma/index.js'
 
 export async function getTopRecipes(take = 5) {
     const recipes = await prisma.recipe.findMany({

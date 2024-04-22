@@ -1,27 +1,29 @@
 import styles from './NavigationBar.module.css';
 import IconComp from "@/app/components/iconComp";
 import Link from "next/link";
+import { TiHome } from "react-icons/ti";
+import { FaUser } from "react-icons/fa";
 
 export const NavigationBar = () => {
     return (
         <>
             <div className={styles.bottomNav}>
-                <Link href={`/recipe/1`}>
+                <Link href={`/`}>
                     <div className="flex flex-col items-center">
-                        <IconComp icon="icono1" class="w-6 h-6"/>
-                        <p>Ruta 1</p>
+                        <TiHome class="w-6 h-6"/>
                     </div>
                 </Link>
                 <Link href={`/recipe/2`}>
                     <div className="flex flex-col items-center">
-                        <IconComp icon="icono2" class="w-6 h-6"/>
-                        <p>Ruta 2</p>
+                        <IconComp
+                            icon="bookmark"
+                            class="w-6 h-6"
+                        />
                     </div>
                 </Link>
                 <Link href={`/recipe/3`}>
                     <div className="flex flex-col items-center">
-                        <IconComp icon="icono3" class="w-6 h-6"/>
-                        <p>Ruta 3</p>
+                        <FaUser class="w-6 h-6"/>
                     </div>
                 </Link>
             </div>

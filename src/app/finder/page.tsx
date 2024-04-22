@@ -1,10 +1,14 @@
 import IconComp from "@/app/components/iconComp";
 import {getTopRecipes} from "@/app/backend/recipe/controllers/getTopRecipes";
+import { getAllCategory } from "@/app/backend/recipe/category/controllers/getAllCategory.controller";
 import { RecipeCard } from "./components/recipeCard";
-import {Recipe} from "@prisma/client";
+import { CategoryCard } from "./components/categoryCard";
+import {Category, Recipe} from "@prisma/client";
 
 export default async function Finder(): Promise<any> {
+    const categories = await getAllCategory()
     const topRecipes:Recipe[] = await getTopRecipes()
+    console.log(categories)
     return (
         <>
             <div className="pl-6 pr-6 pt-10 bg-primary-white pb-44">
@@ -18,31 +22,24 @@ export default async function Finder(): Promise<any> {
                            className=" bg-white block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-full"
                            placeholder="Busca alguna receta" required/>
                 </div>
-                <h3 className="pt-6  font-semibold">Recomendaciones</h3>
-                <div className="flex  pt-6">
-                    {topRecipes.map((recipe) => (
-                        <RecipeCard key={recipe.id} recipe={recipe}/>
-                    ))
-                    }
-                </div>
-                <div className="flex  pt-6">
-                    {topRecipes.map((recipe) => (
-                        <RecipeCard key={recipe.id} recipe={recipe}/>
-                    ))
-                    }
-                </div>
-                <div className="flex  pt-6">
-                    {topRecipes.map((recipe) => (
-                        <RecipeCard key={recipe.id} recipe={recipe}/>
-                    ))
-                    }
-                </div>
-                <div className="flex  pt-6">
-                    {topRecipes.map((recipe, index) => (
-                        <RecipeCard key={recipe.id} recipe={recipe}/>
-                    ))
-                    }
-                </div>
+                <section>
+                    <h3 className="pt-10  font-semibold">Categorias</h3>
+                    <div className="flex overflow-x-auto pt-6  pb-4 gap-4 items-center">
+                        <CategoryCard key="1" category="all"/>
+                        {categories.map((category:Category,) => (
+                            <CategoryCard key={category.id} category={category.name}/>
+                        ))}
+                    </div>
+                </section>
+                <section>
+                    <h3 className="pt-2  font-semibold">Recomendaciones</h3>
+                    <div className="flex  pt-6">
+                        {topRecipes.map((recipe) => (
+                            <RecipeCard key={recipe.id} recipe={recipe}/>
+                        ))
+                        }
+                    </div>
+                </section>
             </div>
 
         </>

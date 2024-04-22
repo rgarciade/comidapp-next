@@ -25,6 +25,8 @@ async function main() {
                     { step: 'Sírvelos en un plato.' },
                 ],
             },
+            category: { connect: { id: '6d53a577-308e-49cd-b60d-e744e12401bd' } }, // Asociar la categoría
+            difficulty: 'Fácil',
         },
     })
 
@@ -41,6 +43,8 @@ async function main() {
                     { step: 'Mézclalos con el queso.' },
                 ],
             },
+            category: { connect: { id: '4d9a49d3-d8a7-46e6-b213-5f24f6854d69'} }, // Asociar la categoría
+            difficulty: 'Medio',
         },
     })
 
