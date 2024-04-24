@@ -37,6 +37,7 @@ export default async function Recipe({params} : Params) {
     const name = recipe.title
     const preparationTime = recipe.preparationTime
     const rations = recipe.rations
+    const difficulty = recipe.difficulty
 
     return (
         <>
@@ -57,11 +58,8 @@ export default async function Recipe({params} : Params) {
                     className="flex-initial h-2/6 rounded-t-3xl -mt-10 w-full absolute bg-white p-10 pt-10"
                 >
                     <h3 className="font-bold">{name}</h3>
-                    <div id="info" className="flex pt-10 border-b-2 pb-8">
-
-                        <Labels cookingTime={preparationTime} rations={rations}/>
-
-                        <IconComp icon="add" classData="w-10"/>
+                    <div id="info" className="pt-10 border-b-2 pb-8">
+                        <Labels cookingTime={preparationTime} rations={rations} difficulty={difficulty}/>
                     </div>
                     <div id="ingredients" className="pt-5 pb-12">
                         <h3 className="font-bold pb-2 pt-2">Ingredientes</h3>

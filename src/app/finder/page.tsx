@@ -14,6 +14,7 @@ export const metadata: Metadata = {
 export default async function Finder(): Promise<any> {
     const categories:Category[] = await getAllCategory()
     const topRecipes:Recipe[] = await getTopRecipes()
+    const selected = true
     return (
         <>
             <div className="pl-6 pr-6 pt-10 bg-primary-white pb-44">
@@ -30,7 +31,7 @@ export default async function Finder(): Promise<any> {
                 <section>
                     <h3 className="pt-10  font-semibold">Categorias</h3>
                     <div className="flex overflow-x-auto pt-6  pb-4 gap-4 items-center">
-                        <CategoryCard key="1" category="all"/>
+                        <CategoryCard key="1" category="all" selected={selected}/>
                         {categories.map((category:Category) => (
                             <CategoryCard key={category.id} category={category.name}/>
                         ))}
