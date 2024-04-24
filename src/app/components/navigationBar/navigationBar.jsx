@@ -3,6 +3,7 @@ import IconComp from "@/app/components/iconComp";
 import Link from "next/link";
 import { TiHome } from "react-icons/ti";
 import { FaUser } from "react-icons/fa";
+import { SlMagnifier } from "react-icons/sl";
 
 export const NavigationBar = () => {
     return (
@@ -13,6 +14,12 @@ export const NavigationBar = () => {
                         <TiHome className="w-6 h-6"/>
                     </div>
                 </Link>
+                <Link href={`/`}>
+                    <div className="flex flex-col items-center">
+                        <SlMagnifier className="w-6 h-6"/>
+                    </div>
+                </Link>
+
                 <Link href={`/recipe/2`}>
                     <div className="flex flex-col items-center">
                         <IconComp

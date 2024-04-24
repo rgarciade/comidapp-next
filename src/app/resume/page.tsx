@@ -11,13 +11,13 @@ export const metadata: Metadata = {
     description: "Find your favorite recipes",
 };
 
-export default async function Finder(): Promise<any> {
+export default async function Resume(): Promise<any> {
     const categories:Category[] = await getAllCategory()
     const topRecipes:Recipe[] = await getTopRecipes()
     const selected = true
     return (
         <>
-            <div className="pl-6 pr-6 pt-10 bg-primary-white pb-44">
+            <div className="pl-6 pr-6 pt-10 pb-44">
                 <p className="text-gray-400 text-1xl">Hola</p>
                 <h2 className="w-2/3 leading-8 font-semibold">¿Que te gustaría cocinar hoy?</h2>
                 <div className="relative pt-6">
