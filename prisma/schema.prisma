@@ -57,3 +57,9 @@ model PreparationStep {
   recipeId String
   Recipe   Recipe @relation(fields: [recipeId], references: [id])
 }
+
+model ForkityKeys {
+  id           Int    @id @default(autoincrement())
+  spanish_word String
+  english_word String
+}
