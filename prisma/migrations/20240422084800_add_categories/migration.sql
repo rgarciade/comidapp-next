@@ -13,6 +13,7 @@ INSERT INTO "Category" ("id", "name") VALUES ('4d9a49d3-d8a7-46e6-b213-5f24f6854
 INSERT INTO "Category" ("id", "name") VALUES ('4331b74f-03b8-4e18-9365-c8364de525d0', 'arroz');
 INSERT INTO "Category" ("id", "name") VALUES ('21a1284f-fa1d-4b33-b12c-bf66d4855aa9', 'pan');
 INSERT INTO "Category" ("id", "name") VALUES ('c1dd190b-82da-4bed-993b-5ba0e6182025', 'pizza');
+INSERT INTO "Category" ("id", "name") VALUES ('851c9dd6-1cb8-4e6d-8d7a-22c83f669aaa', 'external');
 
 
 

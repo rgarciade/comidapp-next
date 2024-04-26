@@ -5,6 +5,7 @@ module.exports = {
     content: [
         './src/app/recipe/**/*.{js,ts,jsx,tsx,mdx}',
         './src/app/finder/**/*.{js,ts,jsx,tsx,mdx}',
+        './src/app/resume/**/*.{js,ts,jsx,tsx,mdx}',
         './src/app/components/**/*.{js,ts,jsx,tsx,mdx}',
 
     ],

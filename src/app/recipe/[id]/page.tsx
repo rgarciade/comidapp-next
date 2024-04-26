@@ -38,6 +38,7 @@ export default async function Recipe({params} : Params) {
     const preparationTime = recipe.preparationTime
     const rations = recipe.rations
     const difficulty = recipe.difficulty
+    const image = recipe.image??  'https://www.comedera.com/wp-content/uploads/2021/12/ensalada-de-lechuga1.jpg'
 
     return (
         <>
@@ -50,7 +51,7 @@ export default async function Recipe({params} : Params) {
 
                     <img
                         className="h-full object-cover w-full"
-                        src="https://www.comedera.com/wp-content/uploads/2021/12/ensalada-de-lechuga1.jpg"
+                        src={image}
                         alt="receta"
                     />
                 </div>

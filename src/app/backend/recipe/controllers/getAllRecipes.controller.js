@@ -1,6 +1,6 @@
 import prisma from '/prisma/index.js'
 
-export async function getAllRecipes(id) {
+export async function getAllRecipes() {
     try {
         const recipe = await prisma.recipe.findMany({
             include: {

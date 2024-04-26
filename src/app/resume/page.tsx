@@ -1,19 +1,20 @@
 import IconComp from "@/app/components/iconComp";
 import {getTopRecipes} from "@/app/backend/recipe/controllers/getTopRecipes";
-import { getAllCategory } from "@/app/backend/recipe/category/controllers/getAllCategory.controller";
+import { getAllCategory } from "@/app/backend/recipe/controllers/category/getAllCategory.controller";
 import { RecipeCard } from "./components/recipeCard";
 import { CategoryCard } from "./components/categoryCard";
 import {Category, Recipe} from "@prisma/client";
 import type {Metadata} from "next";
 
 export const metadata: Metadata = {
-    title: "ComidApp",
+    title: "ComidAppp",
     description: "Find your favorite recipes",
 };
 
 export default async function Resume(): Promise<any> {
     const categories:Category[] = await getAllCategory()
     const topRecipes:Recipe[] = await getTopRecipes()
+    debugger
     const selected = true
     return (
         <>
@@ -29,7 +30,7 @@ export default async function Resume(): Promise<any> {
                            placeholder="Busca alguna receta" required/>
                 </div>
                 <section>
-                    <h3 className="pt-10  font-semibold">Categorias</h3>
+                    <h3 className="pt-10  font-semibold">Categorías</h3>
                     <div className="flex overflow-x-auto pt-6  pb-4 gap-4 items-center">
                         <CategoryCard key="1" category="all" selected={selected}/>
                         {categories.map((category:Category) => (
