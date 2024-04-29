@@ -10,7 +10,7 @@ export async function translate({text, from = 'en', to = 'es'}:TranslateOptions 
             to,
         }).catch((err: any) => {
             console.error(err);
-            throw new Error(err)
+            //throw new Error(err)
         });
         return translation.text?? text ;
     }catch (error) {

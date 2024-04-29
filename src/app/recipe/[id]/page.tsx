@@ -39,6 +39,7 @@ export default async function Recipe({params} : Params) {
     const rations = recipe.rations
     const difficulty = recipe.difficulty
     const image = recipe.image??  'https://www.comedera.com/wp-content/uploads/2021/12/ensalada-de-lechuga1.jpg'
+    const sourceUrlLink= recipe.externalUrl
 
     return (
         <>
@@ -78,20 +79,21 @@ export default async function Recipe({params} : Params) {
                         ))}
 
                     </div>
-                    <div id="steps" className="pt-5 pb-28">
-                        <h3 className="font-bold pb-2 pt-2">Pasos</h3>
-                        <ul className="list-none text-2xl">
-                            {steps.map((step: PreparationStep, index: number) => (
-                                <li key={index}
-                                    className="pt-3 flex gap-2">
-                                    <span className="w-4 mt-4 mb-4 h-1 bg-primary"></span>
-                                    <p>
-                                        {step.step}
-                                    </p>
-                                </li>
-                            ))}
 
-                        </ul>
+                    <div id="steps" className="pt-5 pb-28">
+                        {steps.length > 0 && (
+                            <>
+                                <h3 className="font-bold pb-2 pt-2">Pasos</h3>
+                                <ul className="list-none text-2xl">
+                                    {steps.map((step: PreparationStep, index: number) => (
+                                        <li key={index} className="pt-3 flex gap-2">
+                                            <span className="w-4 mt-4 mb-4 h-1 bg-primary"></span>
+                                            <p>{step.step}</p>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </>
+                        )}
                         <StartCooking/>
                     </div>
 

@@ -24,6 +24,11 @@ enum Language {
   en
 }
 
+model ExternalRecipe {
+  recipeId String @id @default(cuid())
+  jsonData Json
+}
+
 model Recipe {
   id                String             @id @default(cuid())
   title             String

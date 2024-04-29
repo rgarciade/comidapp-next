@@ -1,8 +1,8 @@
 import {Recipe} from "@prisma/client";
 import {getRecipesByPhrase} from "@/app/backend/recipe/services/getRecipesByPhrase";
 import {getAllKeysFromWords} from "@/app/backend/recipe/Db/forkity/getAllKeysFromWords";
-import {getRecipeById} from "@/app/backend/recipe/services/forkify/getRecipeById.service";
 import {insertIfExternalNotExist} from "@/app/backend/recipe/Db/insertIfExternalNotExist";
+import {getRecipeListByKey} from "@/app/backend/recipe/services/forkify/getRecipeListByKey.service";
 const { FORKIFY_URL,FORKIFY_API_KEY } = process.env
 
 async function resolveNewRecipesWaiting(newRecipesPromises:Promise<any>[]) {
@@ -72,7 +72,7 @@ export async function getFindAllRecipes(phrase: string):Promise<Recipe[]> {
         let newRecipes: Recipe[] = []
         if(recipes?.length < 5){
             const keys = await getAllKeysFromWords(phrase)
-            const externalRecipes = await Promise.allSettled(keys.map((key:string) => getRecipeById(key)))
+            const externalRecipes = await Promise.allSettled(keys.map((key:string) => getRecipeListByKey(key)))
             newRecipes = await translateAndReturnExternalRecipeIfNotExist(externalRecipes)
         }
         return [...recipes,...newRecipes]

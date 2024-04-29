@@ -3,7 +3,7 @@
 import IconComp from "../../../components/iconComp";
 import {useEffect, useState} from "react"
 
-export const StartCooking = () => {
+export const StartCooking = ({}) => {
 
     return (
         <>

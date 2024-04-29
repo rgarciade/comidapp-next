@@ -15,10 +15,12 @@ export default function Labels({cookingTime, rations, difficulty}) {
                     <InfoComp
                         text={rations + " raciones"}/>
                 </div>
-                <div id="difficulty" className={`flex-col content-center items-center flex`} >
-                    <FaChartSimple  />
-                    <p className="pl-1 text-sml">{difficulty}</p>
-                </div>
+                { difficulty && (
+                    <div id="difficulty" className={`flex-col content-center items-center flex`}>
+                        <FaChartSimple/>
+                        <p className="pl-1 text-sml">{difficulty}</p>
+                    </div>
+                )}
             </div>
 
             <IconComp icon="add" classData="w-10"/>
