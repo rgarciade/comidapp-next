@@ -14,7 +14,6 @@ export const metadata: Metadata = {
 export default async function Resume(): Promise<any> {
     const categories:Category[] = await getAllCategory()
     const topRecipes:Recipe[] = await getTopRecipes()
-    debugger
     const selected = true
     return (
         <>
@@ -40,7 +39,7 @@ export default async function Resume(): Promise<any> {
                 </section>
                 <section>
                     <h3 className="pt-2  font-semibold">Recomendaciones</h3>
-                    <div className="flex  pt-6 overflow-x-auto min-h-72 overflow-y-hidden">
+                    <div className="flex  pt-6 overflow-x-auto min-h-72 overflow-y-hidden bg-primary-white">
                         {topRecipes.map((recipe) => (
                             <RecipeCard key={recipe.id} recipe={recipe}/>
                         ))

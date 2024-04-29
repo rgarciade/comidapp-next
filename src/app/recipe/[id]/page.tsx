@@ -43,11 +43,11 @@ export default async function Recipe({params} : Params) {
 
     return (
         <>
-            <div className="flex-col h-screen pb-40 ">
+            <div className="flex-col h-screen pb-40">
                 <div className="flex-none h-3/6">
                     <IconComp
                         icon="bookmark"
-                        classData="w-14 absolute right-4 bg-white rounded-full p-2 top-3"
+                        classData="w-14 absolute right-4 rounded-full p-2 top-3"
                     />
 
                     <img
@@ -57,7 +57,7 @@ export default async function Recipe({params} : Params) {
                     />
                 </div>
                 <div
-                    className="flex-initial h-2/6 rounded-t-3xl -mt-10 w-full absolute bg-white p-10 pt-10"
+                    className="flex-initial h-2/6 rounded-t-3xl -mt-10 w-full absolute bg-primary-white p-10 pt-10"
                 >
                     <h3 className="font-bold">{name}</h3>
                     <div id="info" className="pt-10 border-b-2 pb-8">
@@ -71,7 +71,7 @@ export default async function Recipe({params} : Params) {
                                     className="pt-3 flex gap-2"
                                 >
                                     <IconComp icon="check" classData="w-8 h-8"/>
-                                    <p>
+                                    <p >
                                         {ingredient.units} {ingredient.IngredientType.name}
                                     </p>
                                 </li>

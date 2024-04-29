@@ -29,22 +29,38 @@ export async function getRecipe(id) {
                 ingredientsToTranslate.push(ingredient.description)
             }
             const stringIngredientsToTranslate = ingredientsToTranslate.join(' | ');
-            const ingredientsTranslated = await translate({text:stringIngredientsToTranslate})
-                .catch(e => {
-                recipe.recipeIngredients = ingredientsToTranslate
+            if(recipe.language === 'en'){
+                const title = await translate({text:recipe.title})
+                recipe.title = title
+                recipe.description = title
+            }
+             await translate({text:stringIngredientsToTranslate})
+                .then(ingredientsTranslated => {
+                    recipe.recipeIngredients = ingredientsTranslated.split(' | ').map((ingredient, index) => {
+                        return {
+                            units: ingredients[index]?.quantity,
+                            IngredientType: {
+                                name: ingredient
+                            }
+                        }
+                    })
+                })
+            .catch(e => {
+                recipe.recipeIngredients = ingredients.map((ingredient, index) => {
+                    return {
+                        units: ingredients[index]?.quantity,
+                        IngredientType: {
+                            name: ingredient.description
+                        }
+                    }
+                })
+                console.error(e)
             })
             //{ingredient.units} {ingredient.IngredientType.name}
             recipe.preparationTime = externalRecipe.data.recipe.cooking_time
             recipe.rations = externalRecipe.data.recipe.servings
             recipe.sourceUrl = externalRecipe.data.recipe.source_url
-            recipe.recipeIngredients = ingredientsTranslated.split(' | ').map((ingredient, index) => {
-                return {
-                    units: ingredients[index]?.quantity,
-                    IngredientType: {
-                        name: ingredient
-                    }
-                }
-            })
+
         }
 
         return recipe
