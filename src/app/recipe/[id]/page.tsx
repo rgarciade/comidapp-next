@@ -12,6 +12,7 @@ export const dynamic = 'auto'
 interface Params {
     params: {id: string}
 }
+
 export async function generateMetadata({params}: Params): Promise<Metadata> {
     const { id } = params;
     const recipe:Recipe | any  = await getRecipe(id)
@@ -29,9 +30,11 @@ export async function generateMetadata({params}: Params): Promise<Metadata> {
 
 export default async function Recipe({params} : Params) {
 
-    const { id } = params;
 
+    const { id } = params;
+    console.log('RecipeRecipeRecipeRecipe!')
     const recipe:Recipe | any  = await getRecipe(id)
+    console.log('RecipeRecipeRecipeRecipe!2')
     const ingredients = recipe.recipeIngredients
     const steps = recipe.preparationSteps
     const name = recipe.title
