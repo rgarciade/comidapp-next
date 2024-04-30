@@ -42,7 +42,7 @@ export default async function Recipe({params} : Params) {
     const rations = recipe.rations
     const difficulty = recipe.difficulty
     const image = recipe.image??  'https://www.comedera.com/wp-content/uploads/2021/12/ensalada-de-lechuga1.jpg'
-    const sourceUrlLink= recipe.externalUrl
+    const sourceUrlLink= recipe.externalUrl?? undefined
 
     return (
         <>
@@ -97,7 +97,7 @@ export default async function Recipe({params} : Params) {
                                 </ul>
                             </>
                         )}
-                        <StartCooking/>
+                        <StartCooking externalUrl={sourceUrlLink}/>
                     </div>
 
                 </div>
