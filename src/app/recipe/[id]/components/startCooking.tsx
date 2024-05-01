@@ -3,7 +3,7 @@
 import IconComp from "../../../components/iconComp";
 import {func} from "prop-types";
 
-function GoToExternalUrl(externalUrl) {
+function GoToExternalUrl(externalUrl:string | undefined){
     if(externalUrl === undefined) return;
     window.open(externalUrl, '_blank');
 }

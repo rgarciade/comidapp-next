@@ -7,7 +7,18 @@ interface ExtendedIngredientType extends IngredientType {
     recipeIngredients:  RecipeIngredient[]
 }
 
-const getRecipesByTitle = async (words: string[]) => {
+const getRecipesByTitle = async (title:string) => {
+
+    return prisma.recipe.findMany({
+        where: {
+            title: {
+                contains: title,
+                mode: 'insensitive'
+            }
+        },
+    })
+}
+const getRecipesByTitles = async (words: string[]) => {
     const wordsQueries = words.map(word => ({
         title: {
             contains: word,
@@ -67,12 +78,38 @@ const getRecipesByIngredients = async (foundInTitle:Recipe[], words: string[]) =
 
 export async function getRecipesByPhrase(phrase: string):Promise<Recipe[]> {
     try {
-        const words = phrase.split(' ').filter(word => word.length > 2);
+        const words = phrase.split(' ')
+        const foundRecipes:Recipe[] = []
 
-        const foundInTitle = await getRecipesByTitle(words);
-        const recipesFromIngredientType = await getRecipesByIngredients(foundInTitle, words);
+        await getRecipesByTitle(phrase)
+            .then((recipes) => {
+                if(recipes.length) foundRecipes.push(...recipes)
+            })
+            .catch((e) => {})
 
-        return [...foundInTitle, ...recipesFromIngredientType]
+        for (let i = 0; i < words.length/2 +1; i++) {
+            const group1 = words.slice(0, (-(1+i))).join(' ')
+            const group2 = words.slice(1+i).join(' ')
+            await getRecipesByTitle(group1)
+                .then((recipes) => {
+                    if(recipes.length) foundRecipes.push(...recipes)
+                }).catch((e) => {})
+            await getRecipesByTitle(group2)
+                .then((recipes) => {
+                    if(recipes.length) foundRecipes.push(...recipes)
+                }).catch((e) => {})
+        }
+        const foundInTitleWords = await getRecipesByTitles(words);
+        const recipesFromIngredientType = await getRecipesByIngredients(foundRecipes, words);
+        foundRecipes.push(...foundInTitleWords)
+        foundRecipes.push(...recipesFromIngredientType)
+       const uniqueRecipes = foundRecipes.reduce((acc: Recipe[], recipe: Recipe) => {
+            if(!acc.some((item: Recipe) => item.id === recipe.id)){
+                acc.push(recipe)
+            }
+            return acc
+       }, [] as Recipe[])
+        return uniqueRecipes
     } catch (error) {
         console.error(error)
         throw new Error('Something went wrong')

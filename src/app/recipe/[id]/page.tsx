@@ -5,6 +5,7 @@ import Labels from "../components/labels";
 import PropTypes from "prop-types";
 import {Recipe, PreparationStep} from "@prisma/client";
 import {Metadata} from "next";
+import {TagExternal} from "@/app/components/tagExternal";
 
 export const dynamic = 'auto'
 
@@ -48,6 +49,7 @@ export default async function Recipe({params} : Params) {
         <>
             <div className="flex-col h-screen pb-40">
                 <div className="flex-none h-3/6">
+                    {(recipe.externalUrl && <TagExternal/>)}
                     <IconComp
                         icon="bookmark"
                         classData="w-14 absolute right-4 rounded-full p-2 top-3"

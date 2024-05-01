@@ -14,7 +14,7 @@ export const NavigationBar = () => {
                         <TiHome className="w-6 h-6"/>
                     </div>
                 </Link>
-                <Link href={`/`}>
+                <Link href={`/finder`}>
                     <div className="flex flex-col items-center">
                         <SlMagnifier className="w-6 h-6"/>
                     </div>

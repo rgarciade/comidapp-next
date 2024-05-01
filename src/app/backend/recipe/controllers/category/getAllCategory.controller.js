@@ -1,6 +1,6 @@
 import prisma from '/prisma/index.js'
 
-export async function getAllCategory(id) {
+export async function getAllCategory() {
     try {
         const categories = await prisma.category.findMany()
 

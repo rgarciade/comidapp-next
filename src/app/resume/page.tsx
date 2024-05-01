@@ -2,7 +2,7 @@ import IconComp from "@/app/components/iconComp";
 import {getTopRecipes} from "@/app/backend/recipe/controllers/getTopRecipes";
 import { getAllCategory } from "@/app/backend/recipe/controllers/category/getAllCategory.controller";
 import { RecipeCard } from "./components/recipeCard";
-import { CategoryCard } from "./components/categoryCard";
+import { CategoryCard } from "../components/categoryCard";
 import {Category, Recipe} from "@prisma/client";
 import type {Metadata} from "next";
 
@@ -30,7 +30,7 @@ export default async function Resume(): Promise<any> {
                 </div>
                 <section>
                     <h3 className="pt-10  font-semibold">Categorías</h3>
-                    <div className="flex overflow-x-auto pt-6  pb-4 gap-4 items-center">
+                    <div className="flex overflow-auto pt-6  pb-4 gap-4 items-center">
                         <CategoryCard key="1" category="all" selected={selected}/>
                         {categories.map((category:Category) => (
                             <CategoryCard key={category.id} category={category.name}/>
@@ -39,7 +39,7 @@ export default async function Resume(): Promise<any> {
                 </section>
                 <section>
                     <h3 className="pt-2  font-semibold">Recomendaciones</h3>
-                    <div className="flex  pt-6 overflow-x-auto min-h-72 overflow-y-hidden bg-primary-white">
+                    <div className="flex  pt-6 overflow-x-auto min-h-80 overflow-y-hidden bg-primary-white">
                         {topRecipes.map((recipe) => (
                             <RecipeCard key={recipe.id} recipe={recipe}/>
                         ))
