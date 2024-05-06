@@ -27,7 +27,7 @@ async function resolveNewRecipesWaiting(newRecipesPromises:Promise<any>[]) {
 }
 
 
-async function translateAndReturnExternalRecipeIfNotExist(recipesGroup: any[], numberOfRecipes: number = 10, asyncCall:boolean = false):Promise<Recipe[] > {
+async function translateAndReturnExternalRecipeIfNotExist(recipesGroup: any[], numberOfRecipes: number = 20, asyncCall:boolean = false):Promise<Recipe[] > {
     return new Promise(async (resolve, reject) => {
         const allRecipesGrouped = recipesGroup.reduce((acc: any[], recipe: any) => {
             const recipes = recipe?.value?.data?.recipes?
@@ -80,8 +80,9 @@ export async function getFindAllRecipes(phrase: string,maxResults:number):Promis
         }
 
         return [
-            ...newRecipes,
+
             ...Object.values(recipes.firstLevelResults),
+            ...newRecipes,
             ...Object.values(recipes.secondLevelResults),
             ...Object.values(recipes.thirdLevelResults),
             ]

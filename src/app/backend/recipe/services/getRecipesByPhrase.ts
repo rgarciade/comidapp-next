@@ -27,6 +27,19 @@ const getRecipesByTitle = async (title:string) => {
         },
     })
 }
+const getRecipesByParcialTitle = async (title:string) => {
+    if(title.length < 3) return Promise.resolve([])
+    return prisma.recipe.findMany({
+        where: {
+            AND: title.split(' ').map((word:string) => ({
+                title: {
+                    contains: word,
+                    mode: 'insensitive'
+                }
+            }))
+        },
+    })
+}
 const getRecipesByTitles = async (words: string[]) => {
     const wordsQueries = words.map(word => ({
         title: {
@@ -41,7 +54,7 @@ const getRecipesByTitles = async (words: string[]) => {
     });
 }
 
-const getRecipesByIngredients = async (foundInTitle:Record<string, Recipe>, words: string[]) => {
+const getRecipesByIngredients = async (foundRecipes:FoundRecipes, words: string[]) => {
     const ingredientTypeWordsQueries = words.map(word => ({
         name: {
             contains: word,
@@ -68,7 +81,7 @@ const getRecipesByIngredients = async (foundInTitle:Record<string, Recipe>, word
 
     //buscar si los ids de recipeIdFromIngredientTypeIds existen en foundInTitle, sino agregalos a un nuevo array
     const recipeIdsToFind = recipeIdFromIngredientTypeIds.reduce((acc: string[], idToFind:string) => {
-        if(!foundInTitle[idToFind]){
+        if(!foundRecipes.firstLevelResults[idToFind] && !foundRecipes.secondLevelResults[idToFind]){
             acc.push(idToFind)
         }
         return acc;
@@ -102,6 +115,17 @@ export async function getRecipesByPhrase(phrase: string):Promise<FoundRecipes> {
                 }
             })
             .catch((e) => {})
+        await getRecipesByParcialTitle(phrase)
+            .then((recipes) => {
+                if(recipes.length) {
+                    // iterate recipes and add to foundRecipes.firstLevelResults
+                    recipes.forEach((recipe:any) => {
+                        foundRecipes.firstLevelResults[recipe.id] = recipe
+                    })
+                }
+            })
+            .catch((e) => {})
+
 
         for (let i = 0; i < words.length/2 +1; i++) {
             const group1 = words.slice(0, (-(1+i))).join(' ')
@@ -110,7 +134,7 @@ export async function getRecipesByPhrase(phrase: string):Promise<FoundRecipes> {
                 .then((recipes) => {
                     if(recipes.length) {
                         recipes.forEach((recipe:any) => {
-                            foundRecipes.firstLevelResults[recipe.id] = recipe
+                            foundRecipes.secondLevelResults[recipe.id] = recipe
                         })
                     }
                 }).catch((e) => {})
@@ -118,18 +142,19 @@ export async function getRecipesByPhrase(phrase: string):Promise<FoundRecipes> {
                 .then((recipes) => {
                     if(recipes.length) {
                         recipes.forEach((recipe:any) => {
-                            foundRecipes.firstLevelResults[recipe.id] = recipe
+                            foundRecipes.secondLevelResults[recipe.id] = recipe
                         })
                     }
                 }).catch((e) => {})
         }
-        const foundInTitleWords = await getRecipesByTitles(words);
-        const recipesFromIngredientType = await getRecipesByIngredients(foundRecipes.firstLevelResults, words);
-        foundInTitleWords.forEach((recipe:any) => {
-            if(!foundRecipes.firstLevelResults[recipe.id]){
-                foundRecipes.secondLevelResults[recipe.id] = recipe
-            }
-        })
+       // const foundInTitleWords = await getRecipesByTitles(words);
+
+        // foundInTitleWords.forEach((recipe:any) => {
+        //     if(!foundRecipes.firstLevelResults[recipe.id]){
+        //         foundRecipes.secondLevelResults[recipe.id] = recipe
+        //     }
+        // })
+        const recipesFromIngredientType = await getRecipesByIngredients(foundRecipes, words);
         recipesFromIngredientType.forEach((recipe:any) => {
             if(!foundRecipes.secondLevelResults[recipe.id]){
                 foundRecipes.thirdLevelResults[recipe.id] = recipe
