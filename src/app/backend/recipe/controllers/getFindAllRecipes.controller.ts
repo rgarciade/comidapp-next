@@ -3,6 +3,7 @@ import {getRecipesByPhrase} from "@/app/backend/recipe/services/getRecipesByPhra
 import {getAllKeysFromWords} from "@/app/backend/recipe/Db/forkity/getAllKeysFromWords";
 import {insertIfExternalNotExist} from "@/app/backend/recipe/Db/insertIfExternalNotExist";
 import {getRecipeListByKey} from "@/app/backend/recipe/services/forkify/getRecipeListByKey.service";
+import {translate} from "@/app/backend/services/translate";
 const { FORKIFY_URL,FORKIFY_API_KEY } = process.env
 
 async function resolveNewRecipesWaiting(newRecipesPromises:Promise<any>[]) {
@@ -75,17 +76,17 @@ export async function getFindAllRecipes(phrase: string,maxResults:number):Promis
         let newRecipes: Recipe[] = []
         if( Object.keys(recipes.firstLevelResults).length < 5){
             const keys = await getAllKeysFromWords(phrase)
+            keys.push(await translate({text: phrase}))
             const externalRecipes = await Promise.allSettled(keys.map((key:string) => getRecipeListByKey(key)))
             newRecipes = await translateAndReturnExternalRecipeIfNotExist(externalRecipes)
         }
 
         return [
-
             ...Object.values(recipes.firstLevelResults),
             ...newRecipes,
             ...Object.values(recipes.secondLevelResults),
             ...Object.values(recipes.thirdLevelResults),
-            ]
+            ].slice(0,maxResults)
     } catch (error) {
         console.error(error)
         throw new Error('Something went wrong' )
