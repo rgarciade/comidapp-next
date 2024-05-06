@@ -7,8 +7,17 @@ interface ExtendedIngredientType extends IngredientType {
     recipeIngredients:  RecipeIngredient[]
 }
 
-const getRecipesByTitle = async (title:string) => {
+type Record<K extends keyof any, T> = {
+    [P in K]: T;
+};
+interface FoundRecipes {
+    firstLevelResults: Record<string, Recipe>,
+    secondLevelResults: Record<string, Recipe>,
+    thirdLevelResults: Record<string, Recipe>,
+}
 
+const getRecipesByTitle = async (title:string) => {
+    if(title.length < 3) return Promise.resolve([])
     return prisma.recipe.findMany({
         where: {
             title: {
@@ -32,7 +41,7 @@ const getRecipesByTitles = async (words: string[]) => {
     });
 }
 
-const getRecipesByIngredients = async (foundInTitle:Recipe[], words: string[]) => {
+const getRecipesByIngredients = async (foundInTitle:Record<string, Recipe>, words: string[]) => {
     const ingredientTypeWordsQueries = words.map(word => ({
         name: {
             contains: word,
@@ -59,7 +68,7 @@ const getRecipesByIngredients = async (foundInTitle:Recipe[], words: string[]) =
 
     //buscar si los ids de recipeIdFromIngredientTypeIds existen en foundInTitle, sino agregalos a un nuevo array
     const recipeIdsToFind = recipeIdFromIngredientTypeIds.reduce((acc: string[], idToFind:string) => {
-        if(!foundInTitle.some((item:Recipe) => item.id === idToFind)){
+        if(!foundInTitle[idToFind]){
             acc.push(idToFind)
         }
         return acc;
@@ -74,16 +83,23 @@ const getRecipesByIngredients = async (foundInTitle:Recipe[], words: string[]) =
     return recipesFromIngredientType
 }
 
-
-
-export async function getRecipesByPhrase(phrase: string):Promise<Recipe[]> {
+export async function getRecipesByPhrase(phrase: string):Promise<FoundRecipes> {
     try {
-        const words = phrase.split(' ')
-        const foundRecipes:Recipe[] = []
+        const words = phrase.split(' ').filter(word => word.length > 2)
+        const foundRecipes:FoundRecipes = {
+            firstLevelResults: {},
+            secondLevelResults: {},
+            thirdLevelResults: {}
+        }
 
         await getRecipesByTitle(phrase)
             .then((recipes) => {
-                if(recipes.length) foundRecipes.push(...recipes)
+                if(recipes.length) {
+                    // iterate recipes and add to foundRecipes.firstLevelResults
+                    recipes.forEach((recipe:any) => {
+                        foundRecipes.firstLevelResults[recipe.id] = recipe
+                    })
+                }
             })
             .catch((e) => {})
 
@@ -92,24 +108,35 @@ export async function getRecipesByPhrase(phrase: string):Promise<Recipe[]> {
             const group2 = words.slice(1+i).join(' ')
             await getRecipesByTitle(group1)
                 .then((recipes) => {
-                    if(recipes.length) foundRecipes.push(...recipes)
+                    if(recipes.length) {
+                        recipes.forEach((recipe:any) => {
+                            foundRecipes.firstLevelResults[recipe.id] = recipe
+                        })
+                    }
                 }).catch((e) => {})
             await getRecipesByTitle(group2)
                 .then((recipes) => {
-                    if(recipes.length) foundRecipes.push(...recipes)
+                    if(recipes.length) {
+                        recipes.forEach((recipe:any) => {
+                            foundRecipes.firstLevelResults[recipe.id] = recipe
+                        })
+                    }
                 }).catch((e) => {})
         }
         const foundInTitleWords = await getRecipesByTitles(words);
-        const recipesFromIngredientType = await getRecipesByIngredients(foundRecipes, words);
-        foundRecipes.push(...foundInTitleWords)
-        foundRecipes.push(...recipesFromIngredientType)
-       const uniqueRecipes = foundRecipes.reduce((acc: Recipe[], recipe: Recipe) => {
-            if(!acc.some((item: Recipe) => item.id === recipe.id)){
-                acc.push(recipe)
+        const recipesFromIngredientType = await getRecipesByIngredients(foundRecipes.firstLevelResults, words);
+        foundInTitleWords.forEach((recipe:any) => {
+            if(!foundRecipes.firstLevelResults[recipe.id]){
+                foundRecipes.secondLevelResults[recipe.id] = recipe
             }
-            return acc
-       }, [] as Recipe[])
-        return uniqueRecipes
+        })
+        recipesFromIngredientType.forEach((recipe:any) => {
+            if(!foundRecipes.secondLevelResults[recipe.id]){
+                foundRecipes.thirdLevelResults[recipe.id] = recipe
+            }
+
+        })
+        return foundRecipes
     } catch (error) {
         console.error(error)
         throw new Error('Something went wrong')

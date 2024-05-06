@@ -70,12 +70,18 @@ export async function getFindAllRecipes(phrase: string,maxResults:number):Promis
     try {
         const recipes = await getRecipesByPhrase(phrase)
         let newRecipes: Recipe[] = []
-        if(recipes?.length < 5){
+        if( Object.keys(recipes.firstLevelResults).length < 5){
             const keys = await getAllKeysFromWords(phrase)
             const externalRecipes = await Promise.allSettled(keys.map((key:string) => getRecipeListByKey(key)))
             newRecipes = await translateAndReturnExternalRecipeIfNotExist(externalRecipes)
         }
-        return [...recipes,...newRecipes].slice(0,maxResults)
+
+        return [
+            ...newRecipes,
+            ...Object.values(recipes.firstLevelResults),
+            ...Object.values(recipes.secondLevelResults),
+            ...Object.values(recipes.thirdLevelResults),
+            ]
     } catch (error) {
         console.error(error)
         throw new Error('Something went wrong' )
