@@ -5,6 +5,7 @@ import { CategoryCard } from "../components/categoryCard";
 import React, {useEffect, useState} from "react";
 import FindBar from "@/app/finder/components/findBar";
 import {getCategories} from "@/app/backend/recipe/serverActions/getCategories";
+import {RecipeCardFinder} from "@/app/finder/components/recipeCardFinder";
 
 
 
@@ -17,9 +18,9 @@ interface finderParams {
 
 export default function Finder({params}:finderParams): any{
     const [categories, setCategories] = useState<Category[]>([]);
+    const [recipes, setRecipes] = useState<Recipe[]>([]);
     useEffect( () => {
         getCategories().then((cat) => {
-            console.log(cat)
             setCategories(cat)
         })
     }, [])
@@ -28,8 +29,9 @@ export default function Finder({params}:finderParams): any{
     // const router = useRouter()
     // const paramss = router.query
     // console.log('paramss',paramss)
-    const handleValueFromChild = (value:any) => {
-        console.log("Valor recibido del hijo: ", value);
+    const handleValueFromChild = (recipes:Recipe[]) => {
+        console.log("Valor recibido del hijo: ", recipes);
+        setRecipes(recipes)
     }
     const selected = true
     return (
@@ -49,6 +51,14 @@ export default function Finder({params}:finderParams): any{
                         <CategoryCard key="1" category="all" selected={selected}/>
                         {categories.map((category:Category) => (
                             <CategoryCard key={category.id} category={category.name}/>
+                        ))}
+                    </div>
+                </section>
+                <section>
+                    <h3 className="pt-10  font-semibold">Recetas</h3>
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4  lg:pl-24 lg:pr-24 gap-4 items-start ">
+                        {recipes.map((recipe: Recipe, index) => (
+                            <RecipeCardFinder key={index} recipe={recipe}/>
                         ))}
                     </div>
                 </section>

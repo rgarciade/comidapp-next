@@ -36,15 +36,18 @@ async function translateAndReturnExternalRecipeIfNotExist(recipesGroup: any[], n
             return [ ...acc,...recipes]
         }, [])
         const newRecipesPromises:Promise<any>[] = []
-
-        for(let i = 0; i < numberOfRecipes; i++) {
+        let numberOfNewRecipes = numberOfRecipes
+        if(allRecipesGrouped.length <= numberOfRecipes){
+            numberOfNewRecipes = allRecipesGrouped.length
+        }
+        for(let i = 0; i < numberOfNewRecipes; i++) {
             const recipesResponse = allRecipesGrouped[i]
             newRecipesPromises.push(insertIfExternalNotExist({
-                title: recipesResponse.title,
-                description: recipesResponse.title,
-                image: recipesResponse.image_url,
-                externalId: recipesResponse.id,
-                externalUrl: `${FORKIFY_URL}/${recipesResponse.id}/?key=${FORKIFY_API_KEY}`,
+                title: recipesResponse?.title,
+                description: recipesResponse?.title,
+                image: recipesResponse?.image_url,
+                externalId: recipesResponse?.id,
+                externalUrl: `${FORKIFY_URL}/${recipesResponse?.id}/?key=${FORKIFY_API_KEY}`,
                 categoryId: '851c9dd6-1cb8-4e6d-8d7a-22c83f669aaa'
             }))
         }
