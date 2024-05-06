@@ -14,7 +14,7 @@ export async function insertIfExternalNotExist(newExternalRecipe: newExternalRec
             let title = newExternalRecipe.title.replace(/&amp;/g, '');
             let language = 'en'
             try {
-                title = await translate({text: title})
+                title = title? await translate({text: title}):title
                 language = 'es'
             }catch (e) {
                 console.log(e)
