@@ -5,6 +5,7 @@ import { RecipeCard } from "./components/recipeCard";
 import { CategoryCard } from "../components/categoryCard";
 import {Category, Recipe} from "@prisma/client";
 import type {Metadata} from "next";
+import FindBarResume from "@/app/resume/components/findBarResume";
 
 export const metadata: Metadata = {
     title: "ComidAppp",
@@ -15,6 +16,7 @@ export default async function Resume(): Promise<any> {
     const categories:Category[] = await getAllCategory()
     const topRecipes:Recipe[] = await getTopRecipes()
     const selected = true
+
     return (
         <>
             <div className="pl-6 pr-6 pt-10 pb-44">
@@ -24,9 +26,7 @@ export default async function Resume(): Promise<any> {
                     <div className="absolute inset-y-0 start-0 flex items-center ps-3 pt-6 pointer-events-none">
                         <IconComp icon="magnifying-glass" classData="w-4 h-6 text-gray-500  "/>
                     </div>
-                    <input type="search" id="default-search"
-                           className=" bg-white block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-full"
-                           placeholder="Busca alguna receta" required/>
+                    <FindBarResume />
                 </div>
                 <section>
                     <h3 className="pt-10  font-semibold">Categorías</h3>

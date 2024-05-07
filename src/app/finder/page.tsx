@@ -6,29 +6,23 @@ import React, {useEffect, useState} from "react";
 import FindBar from "@/app/finder/components/findBar";
 import {getCategories} from "@/app/backend/recipe/serverActions/getCategories";
 import {RecipeCardFinder} from "@/app/finder/components/recipeCardFinder";
+import { useSearchParams } from 'next/navigation'
 
 
-
-interface finderParams {
-    params: {
-        id: string
-    }
-}
-
-
-export default function Finder({params}:finderParams): any{
+export default function Finder(): any{
     const [categories, setCategories] = useState<Category[]>([]);
     const [recipes, setRecipes] = useState<Recipe[]>([]);
+    const [search, setSearch] = useState<string>('');
     useEffect( () => {
         getCategories().then((cat) => {
             setCategories(cat)
         })
+        setSearch(searchParams.get('search')??'')
     }, [])
 
-    const search = params.id
-    // const router = useRouter()
-    // const paramss = router.query
-    // console.log('paramss',paramss)
+    const searchParams = useSearchParams()
+
+
     const handleValueFromChild = (recipes:Recipe[]) => {
         console.log("Valor recibido del hijo: ", recipes);
         setRecipes(recipes)
@@ -43,7 +37,7 @@ export default function Finder({params}:finderParams): any{
                     <div className="absolute inset-y-0 start-0 flex items-center ps-3 pt-6 pointer-events-none">
                         <IconComp icon="magnifying-glass" classData="w-4 h-6 text-gray-500  "/>
                     </div>
-                    <FindBar sendValueToParent={handleValueFromChild}/>
+                    <FindBar sendValueToParent={handleValueFromChild} initialSearch={search}/>
                 </div>
                 <section>
                     <h3 className="pt-10  font-semibold">Categorías</h3>
