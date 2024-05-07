@@ -1,3 +1,4 @@
+'use server'
 // @ts-ignore
 import prisma from '/prisma/index.js'
 import { Prisma } from '@prisma/client'

@@ -38,7 +38,7 @@ export const NavigationBar = () => {
 
     return (
         <>
-            <div className={styles.bottomNav}>
+            <div className={`${styles.bottomNav} rounded-xl w-11/12 left-4 right-4 bottom-3`}>
                 {menuItems.map((item, index) => (
                     <Link href={item.path} key={index}>
                         <div className="flex flex-col items-center blue">
