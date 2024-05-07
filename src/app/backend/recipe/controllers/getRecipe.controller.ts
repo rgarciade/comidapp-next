@@ -3,7 +3,7 @@ import prisma from '/prisma/index.js'
 import { Prisma } from '@prisma/client'
 import {getRecipeByExternalId} from "@/app/backend/recipe/services/forkify/getRecipeByExternaId.service";
 import {translate} from "@/app/backend/services/translate";
-import {insertNewExternalRecipe, ExternalRecipeData} from "@/app/backend/recipe/Db/insertExternalRecipeData";
+import {insertNewExternalRecipe} from "@/app/backend/recipe/Db/insertExternalRecipeData";
 import {ExternalRecipe, Recipe} from "@prisma/client";
 import {ApiResponseIndividualRecipe, Ingredient} from "@/app/backend/recipe/interfaces/forkity";
 import {getNewExternalRecipe} from "@/app/backend/recipe/Db/gerExternalRecipeData";
@@ -11,8 +11,7 @@ import {updateExternalRecipeById} from "@/app/backend/recipe/Db/updateRecipe";
 
 
 async function  translateRecipeTitle(recipe:Recipe){
-   const title = await translate({text: recipe.title})
-    return title
+   return await translate({text: recipe.title})
 }
 
 function translateRecipeIngredients(externalRecipe:ApiResponseIndividualRecipe):Promise<object[]> {
