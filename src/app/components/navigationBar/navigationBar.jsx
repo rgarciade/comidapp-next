@@ -1,38 +1,51 @@
+'use client';
 import styles from './NavigationBar.module.css';
 import IconComp from "@/app/components/iconComp";
 import Link from "next/link";
 import { TiHome } from "react-icons/ti";
 import { FaUser } from "react-icons/fa";
 import { SlMagnifier } from "react-icons/sl";
+import { usePathname } from "next/navigation";
 
 export const NavigationBar = () => {
+    const currentPath = usePathname();
+    const actualRouteStyle =(patch) =>{
+        if(currentPath === patch){
+            return "blue";
+        }
+    }
+
+    const menuItems = [
+        {
+            path: '/resume',
+            icon: <TiHome size={25} title="Resume"  color={actualRouteStyle('/resume')} />,
+        },
+        {
+            path: '/finder',
+            icon: <SlMagnifier size={25}  title="Buscador"color={actualRouteStyle('/finder')} />,
+        },
+        {
+            path: '/ejemplo1',
+            icon: <IconComp classData={`w-6 h-6 ${actualRouteStyle('/ejemplo1')}`} icon="bookmark" title="Favoritos" color={actualRouteStyle('/ejemplo1')} />,
+        },
+        // {
+        //     path: '/ejemplo1',
+        //     icon: <FaUser size={40} {...props}/>,
+        //     title: 'Usuario',
+        //     subTitle: 'Pagina de usuario'
+        // },
+    ]
+
     return (
         <>
             <div className={styles.bottomNav}>
-                <Link href={`/`}>
-                    <div className="flex flex-col items-center">
-                        <TiHome className="w-6 h-6"/>
-                    </div>
-                </Link>
-                <Link href={`/finder`}>
-                    <div className="flex flex-col items-center">
-                        <SlMagnifier className="w-6 h-6"/>
-                    </div>
-                </Link>
-
-                <Link href={`/recipe/2`}>
-                    <div className="flex flex-col items-center">
-                        <IconComp
-                            icon="bookmark"
-                            classData="w-6 h-6"
-                        />
-                    </div>
-                </Link>
-                <Link href={`/recipe/3`}>
-                    <div className="flex flex-col items-center">
-                        <FaUser className="w-6 h-6"/>
-                    </div>
-                </Link>
+                {menuItems.map((item, index) => (
+                    <Link href={item.path} key={index}>
+                        <div className="flex flex-col items-center blue">
+                            {item.icon}
+                        </div>
+                    </Link>
+                ))}
             </div>
         </>
     )
