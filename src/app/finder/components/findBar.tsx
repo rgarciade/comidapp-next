@@ -1,7 +1,6 @@
 'use client'
 import {useEffect, useState} from "react";
-import findRecipes from "@/app/backend/recipe/serverActions/findRecipes";
-import {Recipe} from "@prisma/client";
+import {findRecipes} from "@/app/backend/recipe/serverActions/findRecipes";
 
 
 

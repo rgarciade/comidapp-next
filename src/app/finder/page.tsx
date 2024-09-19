@@ -7,6 +7,7 @@ import FindBar from "@/app/finder/components/findBar";
 import {getCategories} from "@/app/backend/recipe/serverActions/getCategories";
 import {RecipeCardFinder} from "@/app/finder/components/recipeCardFinder";
 import { useSearchParams } from 'next/navigation'
+import {findRecipesByCategory, findRecipesByCategoryId} from "@/app/backend/recipe/serverActions/findRecipes";
 
 
 export default function Finder(): any{
@@ -27,6 +28,17 @@ export default function Finder(): any{
         console.log("Valor recibido del hijo: ", recipes);
         setRecipes(recipes)
     }
+
+    const setRecipesByCategory = async (categoryId:string) => {
+        const recipes = await findRecipesByCategory(categoryId)
+        if(!recipes.length){
+            console.log('no recipes found')
+            return
+        }
+        console.log('recipes by category', recipes)
+        setRecipes(recipes)
+    }
+
     const selected = true
     return (
         <>
@@ -44,7 +56,7 @@ export default function Finder(): any{
                     <div className="flex overflow-x-auto pt-6  pb-4 gap-4 items-center">
                         <CategoryCard key="1" category="all" selected={selected}/>
                         {categories.map((category:Category) => (
-                            <CategoryCard key={category.id} category={category.name}/>
+                            <CategoryCard key={category.id} category={category.name} onClick={async () => await setRecipesByCategory(category.id)}/>
                         ))}
                     </div>
                 </section>
