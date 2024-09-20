@@ -1,9 +1,9 @@
 import {Recipe} from "@prisma/client";
 import {getRecipesByPhrase} from "@/app/backend/recipe/services/getRecipesByPhrase";
-import {getAllKeysFromWords} from "@/app/backend/recipe/Db/forkity/getAllKeysFromWords";
-import {insertIfExternalNotExist} from "@/app/backend/recipe/Db/insertIfExternalNotExist";
+import {getAllKeysFromWords} from "@/app/backend/recipe/repository/forkity/getAllKeysFromWords";
 import {getRecipeListByKey} from "@/app/backend/recipe/services/forkify/getRecipeListByKey.service";
 import {translate} from "@/app/backend/services/translate";
+import {insertIfExternalNotExist} from "@/app/backend/recipe/repository/externalRecipe-repository";
 const { FORKIFY_URL,FORKIFY_API_KEY } = process.env
 
 async function resolveNewRecipesWaiting(newRecipesPromises:Promise<any>[]) {

@@ -1,14 +1,11 @@
-'use server'
 // @ts-ignore
 import prisma from '/prisma/index.js'
 import { Prisma } from '@prisma/client'
 import {getRecipeByExternalId} from "@/app/backend/recipe/services/forkify/getRecipeByExternaId.service";
 import {translate} from "@/app/backend/services/translate";
-import {insertNewExternalRecipe} from "@/app/backend/recipe/Db/insertExternalRecipeData";
 import {ExternalRecipe, Recipe} from "@prisma/client";
 import {ApiResponseIndividualRecipe, Ingredient} from "@/app/backend/recipe/interfaces/forkity";
-import {getNewExternalRecipe} from "@/app/backend/recipe/Db/gerExternalRecipeData";
-import {updateExternalRecipeById} from "@/app/backend/recipe/Db/updateRecipe";
+import * as externalRecipeRepository from "@/app/backend/recipe/repository/externalRecipe-repository";
 
 
 async function  translateRecipeTitle(recipe:Recipe){
@@ -66,7 +63,7 @@ export  async function getExternalRecipe(recipe:Recipe): Promise< ExternalRecipe
         return {error: 'Recipe not found' }
     }
 
-    let externalRecipeData:ExternalRecipe= await getNewExternalRecipe(recipe.id)
+    let externalRecipeData:ExternalRecipe= await externalRecipeRepository.getNewExternalRecipe(recipe.id)
     if(!externalRecipeData){
         const externalRecipeJson: ApiResponseIndividualRecipe = await getRecipeByExternalId(recipe.externalId)
         let newRecipeTitle:string|undefined
@@ -83,18 +80,26 @@ export  async function getExternalRecipe(recipe:Recipe): Promise< ExternalRecipe
             rations: externalRecipeJson?.data?.recipe?.servings,
             sourceUrl: externalRecipeJson?.data?.recipe?.source_url,
         }
-        updateExternalRecipeById(recipe.externalId, {title: newRecipeTitle, description: newRecipeTitle, language:'es'}).catch(e => console.error(e))
-        externalRecipeData = await insertNewExternalRecipe(recipe.id, externalRecipe )
+        externalRecipeRepository.updateExternalRecipeById(recipe.externalId, {title: newRecipeTitle, description: newRecipeTitle, language:'es'}).catch(e => console.error(e))
+        externalRecipeData = await externalRecipeRepository.insertNewExternalRecipe(recipe.id, externalRecipe )
     }
+
     return {
+        error: "",
         jsonData:externalRecipeData?.jsonData,
         recipeId: recipe.id,
         ...recipe,
+        // @ts-ignore
         recipeIngredients: externalRecipeData?.jsonData?.ingredients,
+          // @ts-ignore
         preparationTime: externalRecipeData?.jsonData?.preparationTime,
+          // @ts-ignore
         rations: externalRecipeData?.jsonData?.rations,
+          // @ts-ignore
         externalUrl: externalRecipeData?.jsonData?.sourceUrl,
+          // @ts-ignore
         title: externalRecipeData?.jsonData?.title,
+          // @ts-ignore
         description: externalRecipeData?.jsonData?.title
     }
 }

@@ -1,3 +1,4 @@
+// @ts-ignore
 import prisma from '/prisma/index.js'
 
 export async function getTopRecipes(take = 35) {
