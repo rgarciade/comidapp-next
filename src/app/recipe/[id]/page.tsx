@@ -1,11 +1,11 @@
 import IconComp from "../../components/iconComp";
 import {StartCooking} from "./components/startCooking";
-import {getRecipe} from "../../backend/recipe/controllers/getRecipe.controller";
 import Labels from "../components/labels";
 import PropTypes from "prop-types";
 import {Recipe, PreparationStep} from "@prisma/client";
 import {Metadata} from "next";
 import {TagExternal} from "@/app/components/tagExternal";
+import {getRecipeAction} from "@/app/backend/recipe/serverActions/recipes";
 
 export const dynamic = 'auto'
 
@@ -16,7 +16,7 @@ interface Params {
 
 export async function generateMetadata({params}: Params): Promise<Metadata> {
     const { id } = params;
-    const recipe:Recipe | any  = await getRecipe(id)
+    const recipe:Recipe | any  = await getRecipeAction(id)
     const name = recipe.title
     const ingredients = recipe.recipeIngredients.map((ingredient:Recipe | any) => ingredient.IngredientType.name)
     return {
@@ -34,7 +34,7 @@ export default async function Recipe({params} : Params) {
 
     const { id } = params;
     console.log('RecipeRecipeRecipeRecipe!')
-    const recipe:Recipe | any  = await getRecipe(id)
+    const recipe:Recipe | any  = await getRecipeAction(id)
     console.log('RecipeRecipeRecipeRecipe!2')
     const ingredients = recipe.recipeIngredients
     const steps = recipe.preparationSteps

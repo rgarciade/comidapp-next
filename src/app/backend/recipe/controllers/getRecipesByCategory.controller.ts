@@ -1,5 +1,4 @@
 // @ts-ignore
-import prisma from '/prisma/index.js'
 import DbUseService from "@/app/backend/services/DbUseService";
 
 
